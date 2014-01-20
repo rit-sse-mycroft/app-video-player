@@ -16,7 +16,13 @@ class VideoPlayer < Mycroft::Client
   end
 
   def on_data(data)
-    # Your code here
+    parsed = parse_message(data)
+    if parsed[:type] == 'APP_DEPENDENCY'
+      up
+    elsif parsed[:type] == "MSG_QUERY" and parsed[:type]['action'] == 'start_stream'
+      data = parsed[:data]['data']
+      `vlc rtsp://#{data['host']}:#{data['port']}`
+    end
   end
 
   def on_end

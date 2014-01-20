@@ -8,7 +8,5 @@
     },
     "API": "0",
     "description": "Plays videos streamed to it and stuff",
-    "dependencies": {
-    	"logger": "0.0.1"
-    }
+    "dependencies": {}
 }
