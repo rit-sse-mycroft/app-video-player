@@ -15,8 +15,7 @@ class VideoPlayer < Mycroft::Client
     # Your code here
   end
 
-  def on_data(data)
-    parsed = parse_message(data)
+  def on_data(parsed)
     if parsed[:type] == 'APP_DEPENDENCY'
       up
     elsif parsed[:type] == "MSG_QUERY" and parsed[:type]['action'] == 'start_stream'
