@@ -1,0 +1,14 @@
+{
+    "version": "0.0.1",
+    "name": "VideoPlayer",
+    "displayName": "Video Player",
+    "instanceId": "player1",
+    "capabilities": {
+    	"video": "0.0.1"
+    },
+    "API": "0",
+    "description": "Plays videos streamed to it and stuff",
+    "dependencies": {
+    	"logger": "0.0.1"
+    }
+}
