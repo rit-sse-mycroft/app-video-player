@@ -6,7 +6,7 @@
     "capabilities": {
     	"video": "0.0.1"
     },
-    "API": "0",
+    "API": 0,
     "description": "Plays videos streamed to it and stuff",
     "dependencies": {}
 }
