@@ -4,11 +4,12 @@ class VideoPlayer < Mycroft::Client
 
   attr_accessor :verified
 
-  def initialize
+  def initialize(host, port)
     @key = ''
     @cert = ''
     @manifest = './app.json'
     @verified = false
+    super
   end
 
   def connect
