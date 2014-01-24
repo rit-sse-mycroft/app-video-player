@@ -21,6 +21,7 @@ class VideoPlayer < Mycroft::Client
         loop do
           if @status=='playing'
             if (!@vlc.playing?)
+              puts "Stopped playing, setting status to UP"
               @status = 'stopped'
               up
             end
@@ -43,7 +44,7 @@ class VideoPlayer < Mycroft::Client
       if (!@vlc.playing?)
         puts "Starting the video!"
         Thread.new do
-          sleep 5 # Give the video a few seconds to start
+          sleep 15 # Give the video a few seconds to start
           @status = 'playing'
         end
         in_use(30)
@@ -51,11 +52,10 @@ class VideoPlayer < Mycroft::Client
         @vlc.play(data)
       end
     elsif parsed[:type] == "MSG_QUERY" and parsed[:data]['action'] == 'halt'
-      if (@vlc.playing?)
-        @vlc.stop
-        @status = 'stopped'
-        up
-      end
+      puts "Stopping video"
+      @vlc.stop
+      @status = 'stopped'
+      up
     end
   end
 
