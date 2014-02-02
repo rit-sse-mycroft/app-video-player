@@ -16,31 +16,27 @@ class VideoPlayer < Mycroft::Client
     super
   end
 
-  def connect
-      Thread.new do
-        loop do
-          if @status=='playing'
-            if (!@vlc.playing?)
-              puts "Stopped playing, setting status to UP"
-              @status = 'stopped'
-              up
-            end
+  on 'connect' do
+    Thread.new do
+      loop do
+        if @status=='playing'
+          if (!@vlc.playing?)
+            puts "Stopped playing, setting status to UP"
+            @status = 'stopped'
+            up
           end
         end
       end
-  end
-  
-  def on_event_loop
-
+    end
   end
 
-  def on_data(parsed)
-    if parsed[:type] == 'APP_DEPENDENCY'
-     # meh
-    elsif parsed[:type] == 'APP_MANIFEST_OK'
-      puts "Going up!"
-      up
-    elsif parsed[:type] == "MSG_QUERY" and parsed[:data]['action'] == 'video_stream'
+  on 'APP_MANIFEST_OK' do |data|
+    puts "Going up!"
+    up
+  end
+
+  on 'MSG_QUERY' do |data|
+    if data['action'] == 'video_stream'
       if (!@vlc.playing?)
         puts "Starting the video!"
         Thread.new do
@@ -48,19 +44,15 @@ class VideoPlayer < Mycroft::Client
           @status = 'playing'
         end
         in_use(30)
-        data = parsed[:data]['data']['url']
+        data = data['data']['url']
         @vlc.play(data)
       end
-    elsif parsed[:type] == "MSG_QUERY" and parsed[:data]['action'] == 'halt'
+    elsif data['action'] == 'halt'
       puts "Stopping video"
       @vlc.stop
-      @status = 'stopped'
+      @status = "stopped"
       up
     end
-  end
-
-  def on_end
-
   end
 end
 
