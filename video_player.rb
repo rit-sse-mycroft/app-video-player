@@ -30,13 +30,12 @@ class VideoPlayer < Mycroft::Client
       end
     end
   end
-  
+
   on 'APP_MANIFEST_OK' do |data|
-    @verified = true
     puts "Going up!"
     up
   end
-  
+
   on 'MSG_QUERY' do |data|
     if data['action'] == 'video_stream'
       if (!@vlc.playing?)
@@ -52,7 +51,7 @@ class VideoPlayer < Mycroft::Client
     elsif data['action'] == 'halt'
       puts "Stopping video"
       @vlc.stop
-      @status = 'stopped'
+      @status = "stopped"
       up
     end
   end
